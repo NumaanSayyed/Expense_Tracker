@@ -11,10 +11,10 @@ function Logs() {
 return (
  <>
  
-        <button type="button" className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-24 py-2.5 text-center float-right mt-5 mr-3" onClick={toggleBalance}>
-            {showBalance ? "500 rupees" : "View Balance"}
+    <button type="button" className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-12 md:px-24 py-2.5 text-center float-right mt-5 mr-3">
+      {showBalance ? "500 rupees" : "View Balance"}
+    </button>
 
-          </button>
       
         <section className="text-gray-600 body-font overflow-hidden">
   <div className="container px-5 py-24 mx-auto">
