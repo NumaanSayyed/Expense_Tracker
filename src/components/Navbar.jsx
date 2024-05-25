@@ -1,34 +1,51 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+
 export default function Header() {
     const [navbar, setNavbar] = useState(false);
-    const {user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+    const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
+    const renderLoginLogoutButton = () => {
+        if (isAuthenticated) {
+            return (
+                <button
+                    onClick={() => logout({ returnTo: window.location.origin })}
+                    className="hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg shadow-red-500/50 dark:shadow-lg bg-gradient-to-r from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 text-black text-center mr-2 mb-2"
+                >
+                    Log Out
+                </button>
+            );
+        } else {
+            return (
+                <button
+                    onClick={() => loginWithRedirect()}
+                    className="hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg shadow-red-500/50 dark:shadow-lg bg-gradient-to-r from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 text-black text-center mr-2 mb-2"
+                >
+                    Log In
+                </button>
+            );
+        }
+    };
 
     const items = [
         {
             name: "Home",
             route: "/"
         },
-
-
     ];
 
     return (
-        <nav className="w-full  shadow">
+        <nav className="w-full shadow">
             <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
                 <div>
                     <div className="flex items-center justify-between py-3 md:py-5 md:block">
                         <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-{
-    isAuthenticated ?(
-                                    <img src={user.picture} className="h-16" alt="ZOME  Logo" />
-
-    ):(
-                                        <img src="#" className="h-16" alt="Logo" />
-
-    )
-}
+                            {isAuthenticated ? (
+                                <img src={user.picture} className="h-16" alt="User Logo" />
+                            ) : (
+                                <img src="#" className="h-16" alt="Logo" />
+                            )}
                         </Link>
 
                         <div className="md:hidden relative">
@@ -36,7 +53,7 @@ export default function Header() {
                                 className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
                                 onClick={() => setNavbar(!navbar)}
                             >
-                                {navbar  ? (
+                                {navbar ? (
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="w-6 h-6 text-black"
@@ -67,19 +84,21 @@ export default function Header() {
                                 )}
                             </button>
                         </div>
-
                     </div>
                 </div>
 
                 <div>
-
                     <div
                         className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${navbar ? "block" : "hidden"
                             }`}
                     >
                         <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                             {items.map((data) => (
-                                <li className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0  md:p-0 dark:text-color1 md:dark:hover:text-blue-900 dark:hover:bg-gray-700  md:dark:hover:bg-transparent font-bold transition hover:-translate-y-1 hover:scale-110" aria-current="page" key={data.route}>
+                                <li
+                                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-color1 md:dark:hover:text-blue-900 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold transition hover:-translate-y-1 hover:scale-110"
+                                    aria-current="page"
+                                    key={data.route}
+                                >
                                     <Link to={data.route}>{data.name}</Link>
                                 </li>
                             ))}
@@ -89,46 +108,14 @@ export default function Header() {
 
                 {/* Conditionally render the login/logout button based on screen size */}
                 <div className={`md:hidden ${navbar ? "block" : "hidden"}`}>
-                    {navbar && isAuthenticated ? (
-                        <button
-                            onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
-                            className="hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg  shadow-red-500/50 dark:shadow-lg bg-gradient-to-r from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5  text-black text-center mr-2 mb-2"
-                        >
-                            Log Out
-                        </button>
-                    ) : (
-                        <button
-                            onClick={() => loginWithRedirect()} className="hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg  shadow-red-500/50 dark:shadow-lg bg-gradient-to-r from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5  text-black text-center mr-2 mb-2"
-                        >
-                            Log In
-                        </button>
-                    )}
+                    {renderLoginLogoutButton()}
                 </div>
-
 
                 {/* Render profile picture for larger screens */}
                 <div className="hidden space-x-2 md:inline-block">
-                    {navbar &&isAuthenticated ? (
-                        <button
-                            onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
-                            className=" hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg  shadow-red-500/50 dark:shadow-lg bg-gradient-to-r from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5  text-black text-center mr-2 mb-2"
-                        >
-
-
-                            Log Out
-                        </button>
-                    ) : (
-                        <button
-                            onClick={() => loginWithRedirect()} className="hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg  shadow-red-500/50 dark:shadow-lg bg-gradient-to-r     from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5  text-black text-center mr-2 mb-2"
-                        >
-                            Log In
-                        </button>
-                    )}
+                    {renderLoginLogoutButton()}
                 </div>
-
             </div>
         </nav>
     );
 }
-
-
