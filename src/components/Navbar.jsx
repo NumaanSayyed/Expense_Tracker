@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 export default function Header() {
     const [navbar, setNavbar] = useState(false);
-    const {  isAuthenticated, loginWithRedirect, logout } = useAuth0();
+    const {user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
     const items = [
         {
             name: "Home",
             route: "/"
         },
-      
+
 
     ];
 
@@ -20,9 +20,15 @@ export default function Header() {
                 <div>
                     <div className="flex items-center justify-between py-3 md:py-5 md:block">
                         <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                            <img src="#" className="h-16" alt="ZOME  Logo" />
-                            
+{
+    isAuthenticated ?(
+                                    <img src={user.picture} className="h-16" alt="ZOME  Logo" />
 
+    ):(
+                                        <img src="#" className="h-16" alt="Logo" />
+
+    )
+}
                         </Link>
 
                         <div className="md:hidden relative">
@@ -30,7 +36,7 @@ export default function Header() {
                                 className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
                                 onClick={() => setNavbar(!navbar)}
                             >
-                                {navbar ? (
+                                {navbar  ? (
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="w-6 h-6 text-black"
@@ -61,11 +67,12 @@ export default function Header() {
                                 )}
                             </button>
                         </div>
-                        
+
                     </div>
                 </div>
 
                 <div>
+
                     <div
                         className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${navbar ? "block" : "hidden"
                             }`}
@@ -79,43 +86,43 @@ export default function Header() {
                         </ul>
                     </div>
                 </div>
-                
+
                 {/* Conditionally render the login/logout button based on screen size */}
                 <div className={`md:hidden ${navbar ? "block" : "hidden"}`}>
-                    {navbar ? (
+                    {navbar && isAuthenticated ? (
                         <button
-
+                            onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
                             className="hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg  shadow-red-500/50 dark:shadow-lg bg-gradient-to-r from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5  text-black text-center mr-2 mb-2"
                         >
                             Log Out
                         </button>
                     ) : (
                         <button
-
-                                className="hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg  shadow-red-500/50 dark:shadow-lg bg-gradient-to-r from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5  text-black text-center mr-2 mb-2"
+                            onClick={() => loginWithRedirect()} className="hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg  shadow-red-500/50 dark:shadow-lg bg-gradient-to-r from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5  text-black text-center mr-2 mb-2"
                         >
                             Log In
                         </button>
                     )}
                 </div>
-                
+
 
                 {/* Render profile picture for larger screens */}
                 <div className="hidden space-x-2 md:inline-block">
-                    {navbar ? (
+                    {navbar &&isAuthenticated ? (
                         <button
                             onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
                             className=" hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg  shadow-red-500/50 dark:shadow-lg bg-gradient-to-r from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5  text-black text-center mr-2 mb-2"
                         >
+
+
                             Log Out
                         </button>
                     ) : (
-                        <Link to="/login"
-                            onClick={() => loginWithRedirect()}
-                            className="hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg  shadow-red-500/50 dark:shadow-lg bg-gradient-to-r     from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5  text-black text-center mr-2 mb-2"
+                        <button
+                            onClick={() => loginWithRedirect()} className="hover:bg-gradient-to-br focus:ring-4 focus:outline-none shadow-lg  shadow-red-500/50 dark:shadow-lg bg-gradient-to-r     from-purple-500 to-purple-300 cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5  text-black text-center mr-2 mb-2"
                         >
                             Log In
-                        </Link>
+                        </button>
                     )}
                 </div>
 
