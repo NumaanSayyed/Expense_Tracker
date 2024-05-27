@@ -26,13 +26,16 @@ export default function Header() {
                 </button>
             );
         }
+      
     };
 
     const items = [
         {
             name: "Home",
             route: "/"
-        },
+        }
+      
+       
     ];
 
     return (
@@ -42,7 +45,7 @@ export default function Header() {
                     <div className="flex items-center justify-between py-3 md:py-5 md:block">
                         <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                             {isAuthenticated ? (
-                                <img src={user.picture} className="h-16" alt="User Logo" />
+                            <img className="w-10 h-10 rounded-full" src={user.picture} alt="Rounded avatar" />
                             ) : (
                                 <img src="#" className="h-16" alt="Logo" />
                             )}
@@ -53,6 +56,7 @@ export default function Header() {
                                 className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
                                 onClick={() => setNavbar(!navbar)}
                             >
+                                
                                 {navbar ? (
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -82,6 +86,7 @@ export default function Header() {
                                         />
                                     </svg>
                                 )}
+                                
                             </button>
                         </div>
                     </div>
@@ -110,6 +115,7 @@ export default function Header() {
                 <div className={`md:hidden ${navbar ? "block" : "hidden"}`}>
                     {renderLoginLogoutButton()}
                 </div>
+                
 
                 {/* Render profile picture for larger screens */}
                 <div className="hidden space-x-2 md:inline-block">
